@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
+</head>
+<body>
+
+<div id="myFormContainer">
+    <!-- Форма буде вставлена сюди програмно за допомогою JavaScript -->
+</div>
+</body>
+</html>
+
+<script>
+    class Form {
+        constructor(formId) {
+            this.form = document.getElementById(formId);
+            this.fields = [];
+            this.onSubmit = null;
+
+            if (!this.form) {
+                console.error(`Form with id "${formId}" not found.`);
+            }
+
+            // Обробка події відправки форми
+            this.form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                this.handleSubmit();
+            });
+        }
+
+        // Додавання поля вводу до форми
+        addInputField(label, type, name, required = false) {
+            const inputField = document.createElement('input');
+            inputField.type = type;
+            inputField.name = name;
+            inputField.required = required;
+
+            const labelElement = document.createElement('label');
+            labelElement.innerText = label;
+            labelElement.appendChild(inputField);
+
+            this.fields.push(inputField);
+            this.form.appendChild(labelElement);
+        }
+
+        // Додавання кнопки до форми
+        addButton(label) {
+            const button = document.createElement('button');
+            button.type = 'submit';
+            button.innerText = label;
+            this.form.appendChild(button);
+        }
+
+        // Додавання обробника події відправки форми
+        setSubmitHandler(onSubmit) {
+            this.onSubmit = onSubmit;
+        }
+
+        // Обробник відправки форми
+        handleSubmit() {
+            // Валідація полів вводу
+            if (this.validate()) {
+                // Виклик користувацького обробника події відправки форми
+                if (this.onSubmit) {
+                    this.onSubmit();
+                }
+            } else {
+                console.log('Form validation failed.');
+            }
+        }
+
+        // Валідація полів вводу
+        validate() {
+            return this.fields.every((field) => field.checkValidity());
+        }
+    }
+
+    // Створення і налаштування форми
+    const myForm = new Form('myFormContainer');
+    myForm.addInputField('Username', 'text', 'username', true);
+    myForm.addInputField('Email', 'email', 'email', true);
+    myForm.addButton('Submit');
+
+    // Додавання обробника події відправки форми
+    myForm.setSubmitHandler(() => {
+        // Дії, які виконуються при успішній відправці форми
+        alert('Form submitted successfully!');
+    });
+</script>

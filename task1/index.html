@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Window</title>
+    <style>
+        .modal {
+            display: none;
+            position: absolute;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 20px;
+        }
+
+        .modal-header {
+            cursor: move;
+            user-select: none;
+        }
+
+        .close{
+            top: 0;
+            right: 0;
+            position: absolute;
+            padding: 5px 5px 5px 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="myModal" class="modal">
+    <div class="modal-header">Modal Header</div>
+    <div class="modal-content">Modal Content</div>
+    <span class="close">&times;</span>
+</div>
+
+<script>
+    class Modal {
+        constructor() {
+            this.modal = document.getElementById('myModal');
+            this.header = this.modal.querySelector('.modal-header');
+            this.content = this.modal.querySelector('.modal-content');
+            this.closeBtn = this.modal.querySelector('.close');
+
+            this.draggable = false;
+            this.offsetX = 0;
+            this.offsetY = 0;
+
+            this.attachEvents();
+        }
+
+        open() {
+            this.modal.style.display = 'block';
+        }
+
+        close() {
+            this.modal.style.display = 'none';
+        }
+
+        setContent(content) {
+            this.content.innerHTML = content;
+        }
+
+        attachEvents() {
+            this.header.addEventListener('mousedown', (e) => this.dragStart(e));
+            document.addEventListener('mouseup', () => this.dragEnd());
+            document.addEventListener('mousemove', (e) => this.drag(e));
+            this.closeBtn.addEventListener('click', () => this.close());
+        }
+
+        dragStart(e) {
+            this.draggable = true;
+            this.offsetX = e.clientX - this.modal.getBoundingClientRect().left;
+            this.offsetY = e.clientY - this.modal.getBoundingClientRect().top;
+        }
+
+        dragEnd() {
+            this.draggable = false;
+        }
+
+        drag(e) {
+            if (this.draggable) {
+                this.modal.style.left = e.clientX - this.offsetX + 'px';
+                this.modal.style.top = e.clientY - this.offsetY + 'px';
+            }
+        }
+    }
+
+    const myModal = new Modal();
+
+    // Example Usage:
+    myModal.setContent('This is the modal content.');
+    myModal.open();
+</script>
+
+</body>
+</html>

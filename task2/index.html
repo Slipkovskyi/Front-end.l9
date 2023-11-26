@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .slider {
+            width: 400px;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 20px;
+            user-select: none;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="mySlider" class="slider">
+    <div class="slides">
+        <!-- Slides will be added dynamically here -->
+    </div>
+    <div class="btn prev" onclick="prevSlide()">&#10094;</div>
+    <div class="btn next" onclick="nextSlide()">&#10095;</div>
+</div>
+
+<script>
+    class Slider {
+        constructor(elementId, isVertical = false) {
+            this.slider = document.getElementById(elementId);
+            this.slidesContainer = this.slider.querySelector('.slides');
+            this.isVertical = isVertical;
+            this.slides = [];
+            this.currentSlideIndex = 0;
+        }
+
+        addSlide(content) {
+            const slide = document.createElement('div');
+            slide.classList.add('slide');
+            slide.innerHTML = content;
+            this.slides.push(slide);
+            this.slidesContainer.appendChild(slide);
+            this.updateSlideStyles();
+        }
+
+        updateSlideStyles() {
+            const dimension = this.isVertical ? 'height' : 'width';
+            this.slidesContainer.style[dimension] = `${this.slides.length * 100}%`;
+            this.slides.forEach(slide => {
+                slide.style[dimension] = `${100 / this.slides.length}%`;
+            });
+        }
+
+        moveSlides() {
+            const dimension = this.isVertical ? 'height' : 'width';
+            const offset = -this.currentSlideIndex * (100 / this.slides.length);
+            this.slidesContainer.style.transform = `translate${this.isVertical ? 'Y' : 'X'}(${offset}%)`;
+        }
+
+        nextSlide() {
+            if (this.currentSlideIndex < this.slides.length - 1) {
+                this.currentSlideIndex++;
+                this.moveSlides();
+            }
+        }
+
+        prevSlide() {
+            if (this.currentSlideIndex > 0) {
+                this.currentSlideIndex--;
+                this.moveSlides();
+            }
+        }
+    }
+
+    // Example usage
+    const mySlider = new Slider('mySlider', false); // Set the second parameter to true for a vertical slider
+
+    mySlider.addSlide('<img src="frame_00_delay-0.04s.jpg" alt="Slide 1">');
+    mySlider.addSlide('<img src="frame_01_delay-0.04s.jpg" alt="Slide 2">');
+    mySlider.addSlide('<img src="frame_02_delay-0.04s.jpg" alt="Slide 3">');
+    mySlider.addSlide('<img src="frame_03_delay-0.04s.jpg" alt="Slide 4">');
+    mySlider.addSlide('<img src="frame_04_delay-0.04s.jpg" alt="Slide 5">');
+    mySlider.addSlide('<img src="frame_05_delay-0.04s.jpg" alt="Slide 6">');
+    mySlider.addSlide('<img src="frame_06_delay-0.04s.jpg" alt="Slide 7">');
+    mySlider.addSlide('<img src="frame_07_delay-0.04s.jpg" alt="Slide 8">');
+    mySlider.addSlide('<img src="frame_08_delay-0.04s.jpg" alt="Slide 9">');
+    mySlider.addSlide('<img src="frame_09_delay-0.04s.jpg" alt="Slide 10">');
+    mySlider.addSlide('<img src="frame_10_delay-0.04s.jpg" alt="Slide 11">');
+    mySlider.addSlide('<img src="frame_11_delay-0.04s.jpg" alt="Slide 12">');
+    mySlider.addSlide('<img src="frame_12_delay-0.04s.jpg" alt="Slide 13">');
+    mySlider.addSlide('<img src="frame_13_delay-0.04s.jpg" alt="Slide 14">');
+    mySlider.addSlide('<img src="frame_14_delay-0.04s.jpg" alt="Slide 15">');
+    // Add more slides as needed
+
+    function nextSlide() {
+        mySlider.nextSlide();
+    }
+
+    function prevSlide() {
+        mySlider.prevSlide();
+    }
+</script>
+
+</body>
+</html>

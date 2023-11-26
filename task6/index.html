@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notification Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<button onclick="showSuccessNotification()">Показати успішне повідомлення</button>
+<button onclick="showErrorNotification()">Показати помилкове повідомлення</button>
+<button onclick="showDefaultNotification()">Показати звичайне повідомлення</button>
+
+<script>
+    class Notification {
+    constructor() {
+    this.container = document.createElement('div');
+    this.container.style.position = 'fixed';
+    this.container.style.bottom = '10px';
+    this.container.style.right = '10px';
+    this.container.style.width = '300px';
+    this.container.style.padding = '10px';
+    this.container.style.borderRadius = '5px';
+    this.container.style.display = 'none';
+    document.body.appendChild(this.container);
+  }
+
+    show(message, style) {
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.marginBottom = '10px';
+
+    // Додаткові стилі для різних типів сповіщень можна додати тут
+    switch (style) {
+    case 'success':
+    notification.style.backgroundColor = '#4CAF50';
+    notification.style.color = 'white';
+    break;
+    case 'error':
+    notification.style.backgroundColor = '#f44336';
+    notification.style.color = 'white';
+    break;
+    default:
+    // Стиль за замовчуванням
+    notification.style.backgroundColor = '#333';
+    notification.style.color = 'white';
+  }
+
+    this.container.appendChild(notification);
+    this.container.style.display = 'block';
+
+    // Закриття сповіщення через 3 секунди
+    setTimeout(() => {
+    this.close(notification);
+  }, 3000);
+  }
+
+    close(notification) {
+    this.container.removeChild(notification);
+
+    // Приховати контейнер, якщо він порожній
+    if (this.container.childElementCount === 0) {
+    this.container.style.display = 'none';
+  }
+  }
+  }
+  // Раніше наведений код класу Notification
+
+  const notification = new Notification();
+
+  function showSuccessNotification() {
+    notification.show('Успішне повідомлення', 'success');
+  }
+
+  function showErrorNotification() {
+    notification.show('Помилкове повідомлення', 'error');
+  }
+
+  function showDefaultNotification() {
+    notification.show('Звичайне повідомлення');
+  }
+</script>
+
+</body>
+</html>

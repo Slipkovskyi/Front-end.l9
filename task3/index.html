@@ -1,0 +1,79 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Table Generator</title>
+</head>
+<body>
+
+
+<!-- Контейнер для таблиці -->
+<div id="table-container"></div>
+
+</body>
+</html>
+<script>
+    // table.js
+    class Table {
+        constructor(id) {
+            this.tableId = id;
+            this.rows = [];
+            this.columns = [];
+        }
+
+        addRow(data) {
+            this.rows.push(data);
+        }
+
+        addColumn(header, data) {
+            this.columns.push({ header, data });
+        }
+
+        generateTable() {
+            const table = document.createElement('table');
+            table.setAttribute('id', this.tableId);
+
+            // Додавання заголовків стовпців
+            const headerRow = table.insertRow();
+            this.columns.forEach(column => {
+                const cell = headerRow.insertCell();
+                cell.textContent = column.header;
+            });
+
+            // Додавання рядків з даними
+            this.rows.forEach(rowData => {
+                const row = table.insertRow();
+                rowData.forEach(cellData => {
+                    const cell = row.insertCell();
+                    cell.textContent = cellData;
+                });
+            });
+
+            // Додавання стовпців з даними
+            this.columns.forEach(column => {
+                column.data.forEach((cellData, rowIndex) => {
+                    const cell = table.rows[rowIndex + 1].insertCell();
+                    cell.textContent = cellData;
+                });
+            });
+
+            return table;
+        }
+    }
+
+    // Приклад використання класу "Таблиця"
+    const myTable = new Table('myTable');
+
+    // Додавання рядків та стовпців
+    myTable.addRow(['Name', 'Age', 'Country']);
+    myTable.addRow(['John', 25, 'USA']);
+    myTable.addRow(['Anna', 30, 'Canada']);
+
+    myTable.addColumn('Email', ['john@example.com', 'anna@example.com']);
+
+    // Вставка таблиці в елемент з id="table-container"
+    document.getElementById('table-container').appendChild(myTable.generateTable());
+
+</script>

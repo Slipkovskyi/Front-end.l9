@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Стилі для приховання вмісту */
+        .tab-content {
+            display: none;
+        }
+    </style>
+    <title>Вкладки</title>
+</head>
+<body>
+
+<!-- Додайте ваші вкладки та вміст в цей розділ -->
+
+<div id="content1" class="tab-content">
+    <h2>Вкладка 1</h2>
+    <p>Вміст вкладки 1...</p>
+</div>
+
+<div id="content2" class="tab-content">
+    <h2>Вкладка 2</h2>
+    <p>Вміст вкладки 2...</p>
+</div>
+
+<div id="content3" class="tab-content">
+    <h2>Вкладка 3</h2>
+    <p>Вміст вкладки 3...</p>
+</div>
+
+<!-- JavaScript-код -->
+
+<script>
+    class Tab {
+        constructor() {
+            this.tabs = [];
+            this.contents = [];
+        }
+
+        addTab(tabName, content) {
+            this.tabs.push(tabName);
+            this.contents.push(content);
+        }
+
+        switchTab(tabName) {
+            const tabIndex = this.tabs.indexOf(tabName);
+
+            if (tabIndex !== -1) {
+                // Hide all contents
+                this.contents.forEach((content) => {
+                    content.style.display = 'none';
+                });
+
+                // Show the selected tab's content
+                this.contents[tabIndex].style.display = 'block';
+            } else {
+                console.error(`Tab "${tabName}" not found.`);
+            }
+        }
+    }
+
+    // Створити екземпляр класу "Вкладка"
+    const myTabs = new Tab();
+
+    // Додати вкладки та вміст
+    myTabs.addTab('Вкладка 1', document.getElementById('content1'));
+    myTabs.addTab('Вкладка 2', document.getElementById('content2'));
+    myTabs.addTab('Вкладка 3', document.getElementById('content3'));
+
+    // Зробити перший таб активним
+    myTabs.switchTab('Вкладка 1');
+</script>
+
+</body>
+</html>
